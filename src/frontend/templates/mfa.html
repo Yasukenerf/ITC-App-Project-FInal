@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Two‑Factor Authentication</h1>
+<p class="muted">Enter the 6‑digit code from your authenticator app.</p>
+<form method="post" class="card">
+  <label>2FA Code</label>
+  <input name="token" inputmode="numeric" placeholder="123456" required />
+  <button type="submit">Verify</button>
+</form>
+{% endblock %}

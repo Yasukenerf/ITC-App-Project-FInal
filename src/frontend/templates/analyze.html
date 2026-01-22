@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Analyze Email</h1>
+<form method="post" class="card">
+  <label>Email content</label>
+  <textarea name="email_text" rows="12" placeholder="Paste the full email here..."></textarea>
+  <button type="submit">Analyze</button>
+  <p class="muted">Tip: For advanced checks, paste raw headers (From:, Reply-To:, Authentication-Results:) and any attachment filenames (e.g., invoice.pdf.exe).</p>
+</form>
+{% endblock %}

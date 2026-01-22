@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Incident Response (Simulation)</h1>
+<p class="muted">Record a simulated incident for assessment evidence. No malicious actions are performed.</p>
+
+<div class="card">
+  <h2>Record incident</h2>
+  <form method="post" class="stack">
+    <label>
+      Incident type
+      <select name="incident_type">
+        <option value="phishing_campaign">Phishing campaign</option>
+        <option value="account_compromise">Account compromise</option>
+        <option value="suspicious_login">Suspicious login</option>
+        <option value="data_exfiltration">Possible data exfiltration</option>
+      </select>
+    </label>
+
+    <label>
+      Notes (optional)
+      <textarea name="note" rows="4" placeholder="What happened? What did you observe?"></textarea>
+    </label>
+
+    <button type="submit" class="btn">Record incident</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Recommended response steps (NIST-style)</h2>
+  <ol>
+    <li><strong>Identify:</strong> confirm indicators, scope, and affected accounts/systems.</li>
+    <li><strong>Contain:</strong> disable affected accounts, quarantine emails, block malicious domains/URLs.</li>
+    <li><strong>Eradicate:</strong> remove persistence, reset credentials, patch vulnerable components.</li>
+    <li><strong>Recover:</strong> restore normal operations, monitor for reoccurrence, validate controls.</li>
+    <li><strong>Lessons learned:</strong> update detection rules, improve MFA/policies, add training.</li>
+  </ol>
+  <p class="muted">Tip: show the audit log entry for <code>incident_simulated</code> in your database viewer for evidence.</p>
+</div>
+{% endblock %}

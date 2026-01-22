@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Quarantine (Admin)</h1>
+<p class="muted">Items flagged as phishing.</p>
+<div class="card">
+  {% if items %}
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Score</th>
+          <th>Level</th>
+          <th>Reason</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for it in items %}
+        <tr>
+          <td>{{ it.id }}</td>
+          <td>{{ it.user_id }}</td>
+          <td>{{ it.risk_score }}</td>
+          <td>{{ it.risk_level }}</td>
+          <td>{{ it.quarantine_reason or '' }}</td>
+          <td>{{ it.created_at }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="muted">No quarantined emails yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

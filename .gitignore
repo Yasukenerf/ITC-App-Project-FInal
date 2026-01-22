@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# Flask / instance DB
+instance/
+*.db
+
+# Env
+.env
+
+# Reports / artifacts (keep example placeholders)
+docs/security-results/*.html
+docs/security-results/*.json
+docs/security-results/*.xml
+
+# OS
+.DS_Store
+Thumbs.db

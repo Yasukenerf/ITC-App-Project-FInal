@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Analysis Result</h1>
+<div class="card">
+  <p><strong>Risk Score:</strong> {{ record.risk_score }}/100</p>
+  <p><strong>Risk Level:</strong> <span class="badge {{ record.risk_level|lower|replace(' ', '-') }}">{{ record.risk_level }}</span></p>
+  <p class="muted">Created: {{ record.created_at }}</p>
+</div>
+
+{% if details.breakdown %}
+<div class="card">
+  <h2>Evidence Breakdown (Why this score?)</h2>
+  <p class="muted">Points are weighted indicators (higher = stronger phishing signal).</p>
+  <ul>
+    {% for b in details.breakdown %}
+      <li><strong>+{{ b.points }}</strong> [{{ b.category }}] {{ b.reason }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<div class="grid">
+  <div class="card">
+    <h2>Keywords</h2>
+    {% if details.keywords %}
+      <ul>
+      {% for k in details.keywords %}
+        <li>{{ k }}</li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">None detected</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>Sensitive Requests</h2>
+    {% if details.sensitive %}
+      <ul>
+      {% for s in details.sensitive %}
+        <li>{{ s }}</li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">None detected</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>Header Signals</h2>
+    {% if details.header_issues %}
+      <ul>
+      {% for h in details.header_issues %}
+        <li>{{ h }}</li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">None detected (or headers not provided)</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>Attachment Signals</h2>
+    {% if details.attachment_issues %}
+      <ul>
+      {% for a in details.attachment_issues %}
+        <li>{{ a }}</li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">None detected</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="card">
+  <h2>Suspicious URLs</h2>
+  {% if details.urls %}
+    {% for item in details.urls %}
+      <div class="card subtle">
+        <strong>{{ item.url }}</strong>
+        {% if item.points is defined %}<div class="muted">URL score: {{ item.points }}</div>{% endif %}
+        <ul>
+          {% for issue in item.issues %}
+            <li>{{ issue }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="muted">None detected</p>
+  {% endif %}
+</div>
+
+{% if current_user.role == 'admin' %}
+  <div class="card">
+    <h2>Admin action</h2>
+    <form method="post" action="{{ url_for('dashboard.quarantine_set', analysis_id=record.id) }}">
+      <label>Quarantine reason</label>
+      <input name="reason" placeholder="e.g., High risk phishing" />
+      <button type="submit">Move to quarantine</button>
+    </form>
+  </div>
+{% endif %}
+
+{% endblock %}

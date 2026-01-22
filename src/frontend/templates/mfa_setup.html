@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>2FA Setup (TOTP)</h1>
+{% if current_user.totp_secret %}
+  <p>2FA is <strong>enabled</strong> for your account.</p>
+  <p class="muted">If you need to re-scan the QR code, you can scan it again below.</p>
+  <div class="card center">
+    <img alt="TOTP QR" src="{{ url_for('auth.mfa_qr') }}" class="qr" />
+    <p class="muted">Then go to <a href="{{ url_for('auth.mfa') }}">Verify 2FA</a>.</p>
+  </div>
+{% else %}
+  <p class="muted">Enable 2FA to meet assessment requirements. Use Google Authenticator / Microsoft Authenticator.</p>
+  <form method="post" class="card">
+    <button type="submit">Enable 2FA & Generate QR Code</button>
+  </form>
+{% endif %}
+{% endblock %}
